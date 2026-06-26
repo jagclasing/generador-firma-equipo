@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Generador de Firma Clasing</title>
+<style>
+body{font-family:Arial,sans-serif;background:#fff;margin:20px}
+.container{max-width:820px;margin:auto}.field{margin:12px 0}
+label{display:block;font-weight:700;margin-bottom:4px}
+input,textarea{width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;box-sizing:border-box}
+textarea{height:220px}button{padding:10px 18px;border:0;border-radius:6px;background:#eceded;cursor:pointer;margin:8px 8px 8px 0}
+button:hover{background:#0c1717;color:#fff}
+#preview{margin-top:20px;padding:20px;border:1px solid #ddd}
+</style></head>
+<body><div class="container">
+<h2>Generador de Firma Clasing</h2>
+<div class="field"><label>Nombre completo</label><input id="nombre"></div>
+<div class="field"><label>Cargo</label><input id="cargo"></div>
+<div class="field"><label>Teléfono</label><input id="telefono"></div>
+<div class="field"><label>URL foto</label><input id="foto"></div>
+<button onclick="generar()">Generar firma</button>
+<button onclick="copiar()">Copiar HTML</button>
+<h3>Vista previa</h3><div id="preview"></div>
+<h3>HTML</h3><textarea id="htmlPreview" readonly></textarea>
+</div>
+<script>
+const A={
+logo:"https://143924599.fs1.hubspotusercontent-eu1.net/hubfs/143924599/imagen-firma/Generales/logo-clasing.png",
+linkedin:"https://143924599.fs1.hubspotusercontent-eu1.net/hubfs/143924599/imagen-firma/Generales/linkedin.png",
+instagram:"https://143924599.fs1.hubspotusercontent-eu1.net/hubfs/143924599/imagen-firma/Generales/instagram.png",
+web:"https://143924599.fs1.hubspotusercontent-eu1.net/hubfs/143924599/imagen-firma/Generales/web.png",
+banner:"https://143924599.fs1.hubspotusercontent-eu1.net/hubfs/143924599/imagen-firma/Generales/banner-team.png"};
+const $=id=>document.getElementById(id);
+const v=id=>$(id).value.trim();
+let firma="";
+function generar(){
+ const nombre=v("nombre")||"Nombre Apellido";
+ const cargo=v("cargo")||"Cargo";
+ const telefono=v("telefono");
+ const foto=v("foto")||"https://via.placeholder.com/105?text=Foto";
+ const tel=telefono.replace(/\s+/g,"");
+ firma=`<table cellpadding="0" cellspacing="0" style="max-width:480px;font-family:Arial,sans-serif;border-collapse:collapse"><tr><td><table cellpadding="0" cellspacing="0" width="100%"><tr><td width="32%"><img src="${foto}" width="105" height="105"></td><td style="padding-left:12px"><a href="https://clasing.ai/" target="_blank"><img src="${A.logo}" width="109" height="27"></a><br><br><strong style="font-size:20px">${nombre}</strong><br><span style="font-size:14px">${cargo}</span></td></tr><tr><td><a href="https://www.linkedin.com/company/clasing/" target="_blank"><img src="${A.linkedin}" width="28"></a> <a href="https://www.instagram.com/clasing.ai/" target="_blank"><img src="${A.instagram}" width="28"></a> <a href="https://clasing.ai/" target="_blank"><img src="${A.web}" width="28"></a></td><td style="padding-left:12px">${telefono?`<a href="tel:${tel}" style="text-decoration:none;color:#000">${telefono}</a>`:""}</td></tr><tr><td colspan="2" style="padding-top:8px"><img src="${A.banner}" width="378" height="34"></td></tr></table></td></tr></table>`;
+ $("preview").innerHTML=firma;$("htmlPreview").value=firma;
+}
+async function copiar(){if(!firma)generar();await navigator.clipboard.writeText(firma);alert("HTML copiado.");}
+</script></body></html>
